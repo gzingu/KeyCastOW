@@ -444,7 +444,7 @@ void prepareLabels() {
     ReleaseDC(hMainWnd, hdc);
     RectF box;
     PointF origin(0, 0);
-    gCanvas->MeasureString(L"\u263b - KeyCastOW OFF", 16, fontPlus, origin, &box);
+    gCanvas->MeasureString(L"\u263b - KeyCastOW \u505c\u6b62\u6355\u83b7", 16, fontPlus, origin, &box); //停止捕获 //KeyCastOW OFF
     REAL unitH = box.Height + 2 * labelSettings.borderSize + labelSpacing;
     labelCount = (desktopRect.bottom - desktopRect.top) / (int)unitH;
     REAL paddingH = (desktopRect.bottom - desktopRect.top) - unitH*labelCount;
@@ -1019,16 +1019,16 @@ LRESULT CALLBACK WindowFunc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
         nid.uCallbackMessage = WM_TRAYMSG;
         nid.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-        lstrcpy(nid.szTip, L"KeyCast On Windows by brook hong");
+        lstrcpy(nid.szTip, L"KeyCast On Windows(\u7b80\u4f53\u4e2d\u6587)"); //简体中文 //KeyCast On Windows by brook hong
         Shell_NotifyIcon(NIM_ADD, &nid);
 
         hPopMenu = CreatePopupMenu();
-        AppendMenu(hPopMenu, MF_STRING, MENU_CONFIG, L"&Settings...");
-        AppendMenu(hPopMenu, MF_STRING, MENU_RESTORE, L"&Restore default settings");
+        AppendMenu(hPopMenu, MF_STRING, MENU_CONFIG, L"\u8bbe\u7f6e..."); //设置 //&Settings...
+        AppendMenu(hPopMenu, MF_STRING, MENU_RESTORE, L"\u6062\u590d\u9ed8\u8ba4\u8bbe\u7f6e"); //恢复默认设置 //&Restore default settings
 #ifdef _DEBUG
         AppendMenu(hPopMenu, MF_STRING, MENU_REPLAY, L"Re&play");
 #endif
-        AppendMenu(hPopMenu, MF_STRING, MENU_EXIT, L"E&xit");
+        AppendMenu(hPopMenu, MF_STRING, MENU_EXIT, L"\u9000\u51fa"); //退出 //E&xit
         SetMenuDefaultItem(hPopMenu, MENU_CONFIG, FALSE);
     }
     break;
@@ -1296,14 +1296,14 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst,
     while (GetMessage(&msg, NULL, 0, 0)) {
         if (msg.message == WM_HOTKEY) {
             if (kbdhook) {
-                showText(L"\u263b - KeyCastOW OFF", 1);
+                showText(L"\u263b - KeyCastOW \u505c\u6b62\u6355\u83b7", 1); //停止捕获 //OFF
                 UnhookWindowsHookEx(kbdhook);
                 kbdhook = NULL;
                 UnhookWindowsHookEx(moshook);
                 moshook = NULL;
             }
             else {
-                showText(L"\u263b - KeyCastOW ON", 1);
+                showText(L"\u263b - KeyCastOW \u5f00\u59cb\u6355\u83b7", 1); //开始捕获 //ON
                 kbdhook = SetWindowsHookEx(WH_KEYBOARD_LL, LLKeyboardProc, hInstance, NULL);
                 moshook = SetWindowsHookEx(WH_MOUSE_LL, LLMouseProc, hThisInst, 0);
             }
